@@ -1,0 +1,214 @@
+ Test :- 7   for any code message me Mobile NO:-8521672055 
+
+// Question :-1 Bob and his string
+
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scn=new Scanner(System.in);
+        int t=scn.nextInt();
+
+        while(t-- > 0){
+            String s=scn.next();
+            int max=Integer.MIN_VALUE;
+            int[] freq_map=new int[26];
+            for(int i=0; i<26; i++){
+                freq_map[i]=-1;
+            }
+
+            for(int i=0; i<s.length(); i++){
+                int index=s.charAt(i)-'a';
+                if(freq_map[index]==-1){
+                    freq_map[index]=i;
+                }else{
+                    int distance=i-freq_map[index];
+                    if(distance>max){
+                        max=distance;
+                    }
+                }
+            }
+            if(max==Integer.MIN_VALUE){
+                System.out.println(-1);
+            }else{
+                System.out.println(max-1);
+            }
+        }
+
+    }
+
+}
+
+// Question :-02  (in C++)  Strange island
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+char map[12][12];
+char newmap[12][12];
+int u[] = {0, 0, 1, -1};
+int v[] = {1, -1, 0, 0};
+
+int main() {
+  int r, s;
+  cin >> r >> s;
+  int mini = 100, maxi = 0, minj = 100, maxj = 0;
+  for (int i = 0; i < r; ++i)
+    cin >> map[i];
+  for (int i = 0; i < r; ++i)
+    for (int j = 0; j < s; ++j) {
+      int more = 0;
+      for (int k = 0; k < 4; ++k) {
+        int x = i + u[k];
+        int y = j + v[k];
+        if (x < 0 || y < 0 || x >= r || y >= s || map[x][y] == '.')
+          more++;
+      }
+      if (more >= 3)
+        newmap[i][j] = '.';
+      else
+        newmap[i][j] = map[i][j];
+      if (newmap[i][j] == 'X') {
+        mini = min(mini, i);
+        maxi = max(maxi, i);
+        minj = min(minj, j);
+        maxj = max(maxj, j);
+      }
+    }
+  int k;
+  cin >> k;
+  for (int i = mini; i <= maxi; ++i) {
+    for (int j = minj; j <= maxj; ++j)
+      cout << newmap[i][j];
+    cout << endl;
+  }
+}
+
+// Question :-03 Team Selection
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+
+		int[] arr = new int[scn.nextInt()];
+		for(int i = 0; i < arr.length; i++){
+			arr[i] = scn.nextInt();
+		}
+
+		solve(arr, 12, 0, "");
+	}
+
+	private static void solve(int[] arr, int r, int vidx, String set) {
+		// this must be prior so that last set gets printed when vidx == arr.length
+		if(r == 0){
+			System.out.println(set);
+			return;
+		}
+
+		// base case
+		if(vidx == arr.length){
+			return;
+		}
+
+		// element gets added to set
+		solve(arr, r - 1, vidx + 1, set + arr[vidx] + " ");
+		// element is not added to set
+		solve(arr, r, vidx + 1, set);
+	}
+
+}
+
+// Question :-04  (In C++ ) Help Aroma
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int e[50005][35];
+
+int main(){
+    int q, a, b, c, d;
+    string s;
+    cin >> s;
+    cin >> q;
+    e[0][s[0] - 97]++;
+    for(int w = 0 ; w < 26 ; w++){
+        e[0][w] = 0;
+    }
+    for(int i = 1 ; i <= s.size() ; i++){
+        for(int j = 0 ; j < 26 ; j++){
+            e[i][j] = e[i - 1][j];
+        }
+        e[i][s[i - 1] - 97]++;
+    }
+
+    for(int v = 0 ; v < q ; v++){
+        cin >> a >> b >> c >> d;
+        int p = 1;
+        for(int l = 0 ; l < 26 ; l++){
+            if((e[b][l] - e[a - 1][l]) != (e[d][l] - e[c - 1][l])){
+                p = 0;
+                break;
+            }
+        }
+        if(p == 0)
+            cout << "false" << endl;
+        else
+            cout << "true" << endl;
+    }
+
+    return 0;
+}
+
+// Question :-05 Maximum Invitations 
+
+import java.util.*;
+
+public class Main {
+	
+	static int peri(int w, int h) {
+		return w*2+h*2;
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int m = sc.nextInt();
+		sc.nextLine();
+		char[][] arr = new char[n][m];
+		int[] cnt = new int[m];
+		int max = 0;
+		for (int i=0; i<n; i++) {
+			arr[i] = sc.nextLine().toCharArray();
+			for (int j=0; j<m; j++) {
+				if (arr[i][j]=='.') cnt[j]++;
+				else cnt[j] = 0;
+			}
+			for (int j=0; j<m; j++) {
+				int h = cnt[j];
+				int w = 1;
+				if (h>0) {
+					for (int k=j+1; k<m; k++) {
+						if (cnt[k]<h) break;
+						w++;
+					}
+					for (int k=j-1; k>0; k--) {
+						if (cnt[k]<h) break;
+						w++;
+					}
+				}
+				max = Math.max(max, peri(w, h));
+			}
+		}
+		System.out.println(max-1);
+	}
+
+}
+

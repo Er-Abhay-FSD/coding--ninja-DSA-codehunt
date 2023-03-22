@@ -1,0 +1,165 @@
+1. In Between Linked Lists (java code)
+
+public class Solution {
+
+    public static LinkedListNode<Integer> mergeInBetween(LinkedListNode<Integer> list1, int a, int b, LinkedListNode<Integer> list2) {
+        // Write your code here
+         // keeping the index count
+        int cnt = 0;
+        LinkedListNode<Integer> list = list1;
+        while (cnt + 1 != a) {
+            list = list.next;
+            cnt++;
+        }
+        LinkedListNode<Integer> demo = list.next;
+        list.next = list2;
+        LinkedListNode<Integer> samp = list2;
+        while (samp.next != null)
+            samp = samp.next;
+        while (cnt + 1 != b) {
+            demo = demo.next;
+            cnt++;
+        }
+        demo = demo.next;
+        samp.next = demo;
+        return list1;
+    }
+}
+
+2. Symmetric Binary Tree ( java code)
+
+public class Solution {
+	public static boolean isMirror(BinaryTreeNode<Integer> node1, BinaryTreeNode<Integer> node2){
+        if (node1 == null && node2 == null)
+            return true;
+ 
+        if (node1 != null && node2 != null && node1.data == node2.data)
+            return (isMirror(node1.left, node2.right) && isMirror(node1.right, node2.left));
+
+        return false;
+    }
+	public static boolean isSymmetric(BinaryTreeNode<Integer> root){
+		/* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+		*/
+		return isMirror(root, root);
+	}
+}
+
+3. War on NinjaLand II (java code - only 3 test cases passed)
+
+import java.util.*;
+class Solution {
+
+
+    public static Queue<BinaryTreeNode<Integer>> q;  
+
+    public static int burnTree(BinaryTreeNode<Integer> root,int target,BinaryTreeNode<Integer> r){  
+         if(root==null)  
+            return 0;  
+         if(root.data==target){  
+             System.out.println(target);  
+            //  System.out.print(r.data +" ");  
+             if(root.left!=null)  
+                q.add(root.left);  
+             if(root.right!=null)  
+                q.add(root.right);  
+             return 1;  
+         }  
+           
+         int leftCall = burnTree(root.left,target,root);  
+         if(leftCall == 1){  
+             int k = q.size();  
+             while(k-- >0){  
+                 BinaryTreeNode<Integer> top=q.poll();  
+                 System.out.print(top.data+" ");  
+                 if(top.left!=null)  
+                 q.add(top.left);  
+                 if(top.right!=null)  
+                 q.add(top.right);  
+             }  
+             if(root.right!=null)  
+                q.add(root.right);  
+             System.out.println(root.data);  
+             return 1;  
+         }  
+           
+         int rightCall = burnTree(root.right,target,root);  
+         if(rightCall == 1){  
+             int k = q.size();  
+             while(k-- >0){  
+                 BinaryTreeNode<Integer> top=q.poll();  
+                 System.out.print(top.data+" ");  
+                 if(top.left!=null)  
+                 q.add(top.left);  
+                 if(top.right!=null)  
+                 q.add(top.right);  
+             }  
+             if(root.left!=null)  
+             q.add(root.left);  
+             System.out.println(root.data);  
+             return 1;  
+         }  
+         return 0;  
+     }  
+    static void bomb(BinaryTreeNode<Integer> root, int target){ 
+        // Write your code here\
+        q=new ArrayDeque<>();  
+         burnTree(root,target,root);  
+         while(!q.isEmpty()){  
+             int k=q.size();  
+             while(k-- >0){  
+                BinaryTreeNode<Integer> top=q.poll();  
+                 System.out.print(top.data+" ");  
+                 if(top.left!=null)  
+                    q.add(top.left);  
+                 if(top.right!=null)  
+                    q.add(top.right);  
+             }  
+             System.out.println();  
+         }  
+    } 
+}
+
+4. Find the Celebrity (C++ code)
+
+int celebrity(int n, int** mat)
+{
+	//Write your code here.
+	// Two pointers pointing at start and end of search space.
+    int p = 0, q = n-1; 
+
+    while(p < q) {
+        if(mat[p][q]) {
+            p++;  
+        }
+        else {
+            q--; 
+        }
+    }
+
+    int celebrity = p;
+    bool knowAny = false, knownToAll = true;
+    for(int i = 0; i < n; i++) {
+        if(mat[celebrity][i]) {
+            knowAny = true;
+            break;
+        }
+    }
+
+    for(int i = 0; i < n; i++) {
+        if(i != celebrity and !mat[i][celebrity]) {
+            knownToAll = false;
+            break;
+        }
+    }
+
+    if(knowAny or !knownToAll) {
+        celebrity = -1;
+    }
+
+    return celebrity;
+}

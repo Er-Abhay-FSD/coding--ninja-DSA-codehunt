@@ -1,0 +1,178 @@
+G1 S2
+
+
+
+Number Star Pattern
+
+import java.util.Scanner;
+public class Solution {
+
+	public static void main(String[] args) {
+
+		// Write your code here		
+
+		int N;
+        int i,j;
+        int space=0;
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        for(i=0;i<N;i++) {
+            for (j = 1; j <= space; j++) {
+                System.out.print(" ");
+            }
+            for (j = 1; j <= N; j++) {
+                if (j <= (N - i))
+                    System.out.print(j);
+                else
+                    System.out.print("*");
+            }
+            j--;
+            while (j > 0) {
+                if (j > N - i)
+                    System.out.print("*");
+                else
+                    System.out.print(j);
+                j--;
+            }
+            if ((N - i) > 9)
+                space = space + 1;
+            System.out.println("");
+        }
+	}
+}
+
+
+
+
+
+<<<< Donuts >>>>>>
+
+
+ import java.io.*;
+ import java.util.*;
+public class Solution {
+
+
+	public static void main(String[] args) {
+		/* Your class should be named Solution.
+ 			* Read input as specified in the question.
+ 			* Print output as specified in the question.
+		*/
+
+		// Write your code here
+
+		 Scanner s=new Scanner(System.in);
+		int t= s.nextInt();
+        while(t!=0){
+            int n=s.nextInt();
+            
+            int[]weights=new int[n];
+            for(int i=0;i<n;i++){
+                weights[i]=s.nextInt();
+            }
+            System.out.println(maxWeight(weights,n));
+            t--;
+        }
+
+	}
+
+	static long modulo = (long) Math.pow(10, 9) + 7;
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader (System.in));
+
+
+	static public long maxWeight (int[] weights, int n){
+         Arrays.sort (weights);			
+		int count = 0;
+		long weight = 0; int i = n - 3;
+		while (i > count) {
+			count += 1;
+			weight += weights[i];
+			i-= 3;
+
+        }
+		weight = (long)weight % modulo;
+        return weight;
+            
+}
+
+}
+
+
+
+
+
+<<<Maximum Subarray Sum>>>
+
+
+import java.util.Scanner;
+
+public class Main {
+
+	
+	public static void main(String[] args) {
+		/* Your class should be named Main.
+ 			* Read input as specified in the question.
+ 			* Print output as specified in the question.
+		*/
+
+		// Write your code here
+
+		Scanner sc = new Scanner(System.in);
+
+        int size = sc.nextInt();
+        int [] array = new int[size];
+        for (int i=0;i<size;i++){
+            
+            array[i] = sc.nextInt();
+        }
+        int [] arr = {-2,-3,4,9,-2,1,5};
+        int ans = maximumSubArraySum(array);
+        System.out.println(ans);   
+
+	}
+
+	public static int maximumSubArraySum(int[] arr) {
+        int n = arr.length;
+        int maxSum = Integer.MIN_VALUE;
+        for (int i = 0; i <= n - 1; i++) {
+            int currSum = 0;
+            for (int j = i; j <= n - 1; j++) {
+                currSum += arr[j];
+                if (currSum > maxSum) {
+                    maxSum = currSum;
+                }
+            }
+        }
+        return maxSum;
+    }
+
+}
+
+
+<<<One Strings>>>
+
+
+public class Solution {
+	public static int findOneStrings(String str) {
+		// Write your code here.
+
+		int count =0;
+        int temp=0;
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)=='0'){
+                count+=countConsecutiveOne(temp);
+                temp=0;
+            }else{
+                temp++;
+            }
+            
+        }
+        return count+countConsecutiveOne(temp);
+	}
+
+	 public static int countConsecutiveOne(int n){
+        return (n*(n+1))/2;
+    }
+}
+
