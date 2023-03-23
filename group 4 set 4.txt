@@ -1,0 +1,178 @@
+Spy Among Us
+
+int findMole(int N, int T, int trust[][2]) {
+
+        // Write your code here
+
+        int onIt[N+1];
+        int byIt[N+1];
+
+        memset(onIt,0,sizeof onIt);
+        memset(byIt,0,sizeof byIt);
+
+        for(int i=0;i<T;i++){
+            int a = trust[i][0] , b = trust[i][1];
+            onIt[b]++;
+            byIt[a]++;
+        } 
+
+        for(int i=0;i<=N;i++){
+            if(onIt[i]==(N-1) and byIt[i]==0){
+                // cout<<onIt[i]<<" "<<byIt[i]<<endl;
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+White Subtree
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define ar array
+
+const int mxN=2e5;
+int n, a[mxN], ans[mxN], dp[mxN];
+vector<int> adj[mxN];
+
+void dfs1(int u=0, int p=-1) {
+	dp[u]=a[u];
+	for(int v : adj[u]) {
+		if(v==p)
+			continue;
+		dfs1(v, u);
+		dp[u]+=max(dp[v], 0);
+	}
+}
+
+void dfs2(int u=0, int p=-1, int pd=0) {
+	ans[u]=dp[u]+pd;
+	for(int v : adj[u]) {
+		if(v==p)
+			continue;
+		dfs2(v, u, max(ans[u]-max(dp[v], 0), 0));
+	}
+}
+
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
+    int t; cin>>t;
+
+    while(t--){
+        cin >> n;
+        for(int i=0; i<n; ++i) {
+            cin >> a[i];
+            adj[i].resize(0);
+            if(!a[i])
+                a[i]=-1;
+        }
+        for(int i=1, u, v; i<n; ++i) {
+            cin >> u >> v, --u, --v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        dfs1();
+        dfs2();
+        for(int i=0; i<n; ++i)
+            cout << ans[i] << " ";
+        cout<<endl;
+
+    }
+
+	
+}
+Help Pradyumana!
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Trie{
+    public:
+    Trie* child[26];
+    bool isEnd = false;
+
+    Trie(){
+        memset(child,NULL,sizeof child);
+    }
+
+    void insert(string s){
+        Trie* cur = this;
+        for(auto a:s){
+            a-='a';
+            if(cur->child[a]==NULL){
+                cur->child[a] = new Trie();
+            }
+            cur = cur->child[a];
+        }
+        cur->isEnd = true;
+    }
+
+    
+
+    void recur(Trie* cur,string s,vector<string>&ans){
+        if(cur==NULL){
+            return;
+        }
+        if(cur->isEnd){
+            ans.push_back(s);
+        }
+        for(int i=0;i<26;i++){
+            char temp = 'a'+i;
+
+            this->recur(cur->child[i],s+temp,ans);
+        }
+    }
+
+    void prinPref(string s,vector<string>&ans){
+        Trie* cur = this;
+        for(auto a:s){
+            a-='a';
+            if(!cur->child[a]){
+               return;
+            }
+            cur = cur->child[a];
+        }
+        this->recur(cur,s,ans);
+    }
+};
+
+int main(){
+    
+    int n;
+    cin>>n;
+
+    Trie* root = new Trie();
+
+    while(n--){
+        string s;
+        cin>>s;
+        root->insert(s);
+    }
+    cin>>n;
+
+    while(n--){
+        string s;
+        cin>>s;
+        vector<string>ans;
+        root->prinPref(s,ans);
+        if(ans.size()){
+            sort(ans.begin(),ans.end());
+            for(auto a:ans){
+                cout<<a<<endl;
+            }
+        }
+        else{
+            cout<<"No suggestions\n";
+            root->insert(s);
+        }
+    }
+
+    // write your code here
+    return 0;
+}
